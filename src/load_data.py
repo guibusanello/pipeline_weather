@@ -4,6 +4,7 @@ import os # biblioteca para acessar variáveis de ambiente, como as credenciais 
 from pathlib import Path # biblioteca para manipular caminhos de arquivos, garantindo compatibilidade entre diferentes sistemas operacionais
 import pandas as pd # biblioteca para manipulação de dados, leitura de arquivos CSV e operações de DataFrame
 from dotenv import load_dotenv # biblioteca para carregar variáveis de ambiente a partir de um arquivo .env, facilitando a configuração do ambiente de desenvolvimento
+import uuid # biblioteca para gerar identificadores únicos, se necessário para o processo de carregamento de dados
 
 import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s') # configura o logging para exibir mensagens de informação, incluindo a data e hora, o nível de log e a mensagem em si. Isso é útil para acompanhar o processo de carregamento dos dados e identificar possíveis problemas.
@@ -24,6 +25,8 @@ def get_engine():
 engine = create_engine("postgresql://postgres:senha123@localhost:5432/postgres") 
 
 def load_weather_data(table_name:str, df):
+    df['id'] = [str(uuid.uuid4()) for _ in range(len(df))]  # ✅ adicione aqui, antes do to_sql
+    df.to_sql(name=table_name, con=engine, if_exists='append', index=False) # função para carregar um DataFrame do pandas para uma tabela no banco de dados, usando o método to_sql do pandas. O parâmetro if_exists='append' garante que os dados sejam adicionados à tabela existente sem sobrescrevê-la, e index=False evita que o índice do DataFrame seja adicionado como uma coluna na tabela do banco de dados.
     df.to_sql(name=table_name, con=engine, if_exists='append', index=False) # função para carregar um DataFrame do pandas para uma tabela no banco de dados, usando o método to_sql do pandas. O parâmetro if_exists='append' garante que os dados sejam adicionados à tabela existente sem sobrescrevê-la, e index=False evita que o índice do DataFrame seja adicionado como uma coluna na tabela do banco de dados.
     logging.info(f"Dados carregados com sucesso para a tabela {table_name}") # registra uma mensagem de log indicando que os dados foram carregados com sucesso para a tabela especificada
     df_check = pd.read_sql(f'SELECT * FROM {table_name} LIMIT 5', con=engine) # executa uma consulta SQL para selecionar os primeiros 5 registros da tabela especificada, usando a função read_sql do pandas para ler os resultados diretamente em um DataFrame
