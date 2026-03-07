@@ -21,9 +21,9 @@ def get_engine():
         f"postgresql+psycopg2://{user}:{quote_plus(password or '')}@{host}:5432/{database}" # cria a string de conexão para o banco de dados PostgreSQL usando as credenciais e o host definidos, e retorna uma instância do engine do SQLAlchemy
     )
 
-engine = get_engine() # cria uma instância do engine do SQLAlchemy para se conectar ao banco de dados
+engine = create_engine("postgresql://postgres:senha123@localhost:5432/postgres") 
 
-def load_data(table_name:str, df):
+def load_weather_data(table_name:str, df):
     df.to_sql(name=table_name, con=engine, if_exists='append', index=False) # função para carregar um DataFrame do pandas para uma tabela no banco de dados, usando o método to_sql do pandas. O parâmetro if_exists='append' garante que os dados sejam adicionados à tabela existente sem sobrescrevê-la, e index=False evita que o índice do DataFrame seja adicionado como uma coluna na tabela do banco de dados.
     logging.info(f"Dados carregados com sucesso para a tabela {table_name}") # registra uma mensagem de log indicando que os dados foram carregados com sucesso para a tabela especificada
     df_check = pd.read_sql(f'SELECT * FROM {table_name} LIMIT 5', con=engine) # executa uma consulta SQL para selecionar os primeiros 5 registros da tabela especificada, usando a função read_sql do pandas para ler os resultados diretamente em um DataFrame

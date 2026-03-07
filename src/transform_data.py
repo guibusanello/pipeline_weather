@@ -90,7 +90,7 @@ def normalize_datetime_columns(df: pd.DataFrame, columns_names: list[str]) -> pd
     logging.info(f"Colunas de data/hora normalizadas")
     return df
 
-def data_transformation_pipeline(pathname: str) -> pd.DataFrame:
+def data_transformation(pathname: str) -> pd.DataFrame:
     print(f"Pipeline de transformação de dados iniciada para o arquivo: {pathname}")
     df = create_dataframe(pathname)
     df = normalize_weather_columns(df)
