@@ -6,7 +6,7 @@ import pandas as pd # biblioteca para manipulação de dados, leitura de arquivo
 from dotenv import load_dotenv # biblioteca para carregar variáveis de ambiente a partir de um arquivo .env, facilitando a configuração do ambiente de desenvolvimento
 
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s') # configura o logging para exibir mensagens de informação, incluindo a data e hora, o nível de log e a mensagem em si. Isso é útil para acompanhar o processo de carregamento dos dados e identificar possíveis problemas.
 
 env_path = Path(__file__).resolve().parent.parent / 'config' / '.env' # define o caminho para o arquivo .env, que deve estar no mesmo diretório do script
 load_dotenv(env_path) # carrega as variáveis de ambiente do arquivo .env
