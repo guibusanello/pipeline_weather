@@ -17,7 +17,7 @@ def extract_weather_data(url: str) -> list:
         logging.warning("Nenhum dado encontrado.")
         return []
 
-    output_path = 'data/weather_data.json'
+    output_path = '/opt/airflow/data/weather_data.json'  # ✅ path absoluto
     output_dir = Path(output_path).parent
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -25,4 +25,4 @@ def extract_weather_data(url: str) -> list:
         json.dump(data, f, indent=4)
 
     logging.info(f"Dados extraídos e salvos em {output_path}")
-    return data
+    return output_path  # ✅ troca return data por return output_path

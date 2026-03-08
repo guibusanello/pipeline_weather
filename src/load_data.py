@@ -22,7 +22,7 @@ def get_engine():
         f"postgresql+psycopg2://{user}:{quote_plus(password or '')}@{host}:5432/{database}" # cria a string de conexão para o banco de dados PostgreSQL usando as credenciais e o host definidos, e retorna uma instância do engine do SQLAlchemy
     )
 
-engine = create_engine("postgresql://postgres:senha123@localhost:5432/postgres") 
+engine = create_engine("postgresql://postgres:senha123@host.docker.internal:5432/postgres")
 
 def load_weather_data(table_name:str, df):
     df['id'] = [str(uuid.uuid4()) for _ in range(len(df))]
